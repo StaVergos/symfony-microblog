@@ -17,8 +17,9 @@ class BlogController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('base.html.twig',[
-            'controller_name' => 'BlogController',
+        $posts = $this->getDoctrine()->getRepository(Post::class)->findAll();
+        return $this->render('blog/index.html.twig',[
+            'posts' => $posts
         ]);
     }
 
@@ -36,6 +37,8 @@ class BlogController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('notice','Post Submited Successfully!');
+
+            return $this->redirectToRoute('blog');
         }
 
         return $this->render('blog/create_post.html.twig',[
