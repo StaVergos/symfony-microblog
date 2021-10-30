@@ -68,4 +68,18 @@ class BlogController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/delete_post/{id}", name="delete")
+     */
+    public function delete($id){
+        $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($post);
+        $entityManager->flush();
+
+        $this->addFlash('notice','Post Deleted Successfully!');
+
+        return $this->redirectToRoute('blog');
+    }
 }
