@@ -4,11 +4,6 @@
 <div class="container">
     <div class="row">
         <h3 class="mt-5 mb-5">Create a new Post</h3>
-        {% for message in app.flashes('notice') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
         <div class="col-md-6 offset-md-3">
             {{ form_start(form) }}
                 <div class="form-group">
