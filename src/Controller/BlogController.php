@@ -24,7 +24,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/create_post", name="createpost")
+     * @Route("/create_post", name="create")
      */
     public function create(Request $request)
     {
@@ -42,6 +42,29 @@ class BlogController extends AbstractController
         }
 
         return $this->render('blog/create_post.html.twig',[
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/update_post/{id}", name="update")
+     */
+    public function update(Request $request, $id)
+    {
+        $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($post);
+            $entityManager->flush();
+
+            $this->addFlash('notice','Post Updated Successfully!');
+
+            return $this->redirectToRoute('blog');
+        }
+
+        return $this->render('blog/update_post.html.twig',[
             'form' => $form->createView()
         ]);
     }

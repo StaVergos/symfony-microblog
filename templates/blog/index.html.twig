@@ -8,6 +8,10 @@
                     <article class="blog-post">
                         <h2 class="blog-post-title">{{ posts.title }}</h2>
                         <p>{{ posts.text }}</p>
+                        <div class="d-grid gap-2 d-md-block">
+                            <a class="btn btn-warning" href="{{ path('update', {'id': posts.id}) }}">Update</a>
+                            <button class="btn btn-outline-danger" type="button">Delete</button>
+                        </div>
                     </article>
                 </div>
             </div>
