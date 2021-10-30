@@ -12,22 +12,24 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BlogController extends AbstractController
 {
+    //The home route where all of the posts are Returned
+    
     /**
      * @Route("/", name="blog")
      */
-    public function index(): Response
-    {
+    public function index(): Response{
         $posts = $this->getDoctrine()->getRepository(Post::class)->findAll();
         return $this->render('blog/index.html.twig',[
             'posts' => $posts
         ]);
     }
 
+    //The create a new post route
+
     /**
      * @Route("/create_post", name="create")
      */
-    public function create(Request $request)
-    {
+    public function create(Request $request){
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
@@ -46,11 +48,12 @@ class BlogController extends AbstractController
         ]);
     }
 
+    //The update a post route
+
     /**
      * @Route("/update_post/{id}", name="update")
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id){
         $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
@@ -68,6 +71,8 @@ class BlogController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    //The delete a post route
 
     /**
      * @Route("/delete_post/{id}", name="delete")
